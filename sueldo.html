@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Sueldo Bruto a Neto Online Gratuita | Calcular Netos</title>
+    <meta name="description" content="Calcula tu sueldo neto a partir del bruto, o viceversa. Conoce exactamente cuánto cobrarás después de impuestos. Herramienta gratuita.">
+    <meta name="keywords" content="calculadora sueldo, bruto a neto, calcular sueldo neto, salario neto, salario bruto, calcular retenciones IRPF">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org/",
+        "@type": "WebApplication",
+        "name": "Calculadora de Sueldo Bruto a Neto",
+        "description": "Calcula tu sueldo neto a partir del bruto",
+        "url": "https://jusaex.github.io/calculadorafinanzas/sueldo.html",
+        "applicationCategory": "FinanceApplication"
+    }
+    </script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0f172a; color: #e2e8f9; line-height: 1.6; }
+        .hero { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); padding: 60px 20px; text-align: center; border-bottom: 1px solid #334155; }
+        .hero h1 { font-size: 2.4em; margin-bottom: 10px; background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero p { color: #94a3b8; font-size: 1.1em; }
+        .container { max-width: 700px; margin: 0 auto; padding: 0 20px; }
+        .tool-card { background: #1e293b; border-radius: 16px; padding: 40px; border: 1px solid #334155; margin: 30px 0; }
+        .tool-card h2 { color: #38bdf8; margin-bottom: 20px; }
+        .tool-card label { color: #94a3b8; display: block; margin-bottom: 8px; }
+        .tool-card input, .tool-card select { width: 100%; padding: 12px 15px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #334155; background: #0f172a; color: #e2e8f9; font-size: 1.1em; }
+        .tool-card button { width: 100%; padding: 14px 30px; border-radius: 8px; border: none; background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%); color: white; font-size: 1.1em; font-weight: bold; cursor: pointer; margin-bottom: 20px; }
+        .result { background: #0f172a; border-radius: 12px; padding: 25px; margin: 20px 0; text-align: center; }
+        .result p { margin-bottom: 10px; font-size: 1.1em; }
+        .result .big { font-size: 2.5em; font-weight: bold; background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .article { background: #1e293b; border-radius: 16px; padding: 30px; border: 1px solid #334155; margin: 30px 0; }
+        .article h2 { color: #38bdf8; margin: 20px 0 10px; }
+        .article p, .article li { color: #94a3b8; margin-bottom: 12px; }
+        .article ul { margin-left: 25px; }
+        .ad-placeholder { background: #1e293b; border: 2px dashed #334155; border-radius: 12px; padding: 60px; text-align: center; margin: 20px 0; color: #64748b; }
+        .nav { padding: 15px 20px; background: #1e293b; border-bottom: 1px solid #334155; }
+        .nav a { color: #38bdf8; text-decoration: none; font-size: 0.9em; margin-right: 20px; }
+        .nav a:hover { text-decoration: underline; }
+        .footer { text-align: center; padding: 30px 20px; border-top: 1px solid #334155; color: #64748b; }
+    </style>
+</head>
+<body>
+
+<nav class="nav">
+    <a href="/">🏠 CalculadoraFinanzas</a> | <a href="/iva.html">IVA</a> | <a href="/sueldo.html">Sueldo</a> | <a href="/propina.html">Propina</a>
+</nav>
+
+<div class="hero">
+    <h1>💼 Calculadora de Sueldo Bruto a Neto</h1>
+    <p>Calcula cuánto cobrarás después de impuestos</p>
+</div>
+
+<div class="container">
+    <div class="ad-placeholder">
+        <p>📢 Google AdSense — Este espacio se monetizará con anuncios</p>
+    </div>
+
+    <div class="tool-card">
+        <h2>🧮 Calcula tu sueldo</h2>
+        <label>Salario bruto anual (€)</label>
+        <input type="number" id="salary-gross" placeholder="Ej: 30000" value="30000" step="100">
+        <label>Retención IRPF (%)</label>
+        <select id="salary-irpf">
+            <option value="19">19% (sin cónyuge)</option>
+            <option value="15">15% (con cónyuge)</option>
+            <option value="5">5% (bajo salario)</option>
+            <option value="0">0% (no aplica)</option>
+        </select>
+        <label>¿Vives en España?</label>
+        <select id="salary-country">
+            <option value="es" selected>España</option>
+            <option value="pt">Portugal</option>
+            <option value="mx">México</option>
+        </select>
+        <button onclick="calcSalary()">Calcular sueldo neto</button>
+        <div class="result" id="salary-result" style="display:none"></div>
+    </div>
+
+    <div class="article">
+        <h2>¿Cuál es la diferencia entre bruto y neto?</h2>
+        <p><strong>Salario bruto:</strong> Lo que dice tu contrato antes de impuestos</p>
+        <p><strong>Salario neto:</strong> Lo que realmente recibes en la cuenta</p>
+        <p><strong>IRPF:</strong> El impuesto que te retiene el Estado. Si trabajas con tu cónyere, puedes reducirlo a 15%. Si tienes poco salario, puede ser solo 5%.</p>
+        <p><strong>¿Por qué es tan diferente?</strong> En España, el IRPF + cotizaciones sociales pueden llegar al 30-40% del salario bruto. Por eso un bruto de 30.000€ se convierte en un neto de ~23.000€.</p>
+        <p>Usa esta calculadora para saber exactamente cuánto cobrarás. Es gratis y funciona al instante.</p>
+    </div>
+
+    <div class="ad-placeholder">
+        <p>📢 Google AdSense — Este espacio se monetizará con anuncios</p>
+    </div>
+</div>
+
+<div class="footer">
+    <p>CalculadoraFinanzas — Herramientas gratuitas para tu dinero</p>
+    <p style="margin-top: 10px;"><a href="/">Volver a todas las calculadoras</a></p>
+</div>
+
+<script>
+function calcSalary() {
+    var gross = parseFloat(document.getElementById('salary-gross').value);
+    var irpf = parseFloat(document.getElementById('salary-irpf').value);
+    var resultDiv = document.getElementById('salary-result');
+
+    if (isNaN(gross) || gross <= 0) {
+        resultDiv.innerHTML = '<p style="color:#ef4444;">Introduce un salario válido</p>';
+        resultDiv.style.display = 'block';
+        return;
+    }
+
+    var socialSecurity = gross * 0.23;
+    var irpfAmount = gross * (irpf / 100);
+    var net = gross - socialSecurity - irpfAmount;
+    var netMonthly = net / 12;
+
+    resultDiv.innerHTML = '<p>Salario bruto anual:</p><p class="big">€' + gross.toFixed(2) + '</p><hr style="border:none;border-top:1px solid #334155;margin:15px 0;"><p>Cotizaciones sociales (23%):</p><p style="font-size:1.5em;color:#ef4444;">-€' + socialSecurity.toFixed(2) + '</p><p>IRPF (' + irpf + '%):</p><p style="font-size:1.5em;color:#ef4444;">-€' + irpfAmount.toFixed(2) + '</p><hr style="border:none;border-top:1px solid #334155;margin:15px 0;"><p>Salario neto anual:</p><p style="font-size:1.5em;color:#38bdf8;">€' + net.toFixed(2) + '</p><p>Salario neto mensual (12 pagas):</p><p class="big">€' + netMonthly.toFixed(2) + '</p><p style="margin-top:15px;font-size:0.9em;color:#64748b;">⚠️ Esta es una estimación simplificada. Los impuestos reales pueden variar.</p>';
+    resultDiv.style.display = 'block';
+}
+</script>
+
+</body>
+</html>
