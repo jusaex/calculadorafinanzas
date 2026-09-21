@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CalculadoraFinanzas - Calculadoras Financieras Gratuitas Online | Préstamo, Hipoteca, Ahorro</title>
+    <meta name="description" content="Calculadoras financieras gratuitas e interactivas: hipoteca, préstamo personal, interés compuesto, ahorro, presupuesto, deuda y más. Herramientas de finanzas personales sin registro.">
+    <meta name="keywords" content="calculadora financiera, calculadora hipoteca, calculador prestamo, interes compuesto, presupuesto personal, calculadora ahorro, herramientas finanzas gratis">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f172a;
+            color: #e2e8f9;
+            line-height: 1.6;
+        }
+        .hero {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            padding: 80px 20px;
+            text-align: center;
+            border-bottom: 1px solid #334155;
+        }
+        .hero h1 {
+            font-size: 2.8em;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            font-size: 1.2em;
+            color: #94a3b8;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+            padding: 60px 0;
+        }
+        .tool-card {
+            background: #1e293b;
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid #334155;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .tool-card:hover {
+            transform: translateY(-4px);
+            border-color: #38bdf8;
+        }
+        .tool-card h2 {
+            font-size: 1.4em;
+            margin-bottom: 12px;
+            color: #38bdf8;
+        }
+        .tool-card p {
+            color: #94a3b8;
+            margin-bottom: 20px;
+        }
+        .tool-card input, .tool-card select {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            border: 1px solid #475569;
+            background: #0f172a;
+            color: #e2e8f9;
+            font-size: 1em;
+        }
+        .tool-card button {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            border-radius: 8px;
+            border: none;
+            background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+            color: white;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .tool-card button:hover {
+            opacity: 0.9;
+        }
+        .result {
+            margin-top: 16px;
+            padding: 16px;
+            background: #0f172a;
+            border-radius: 8px;
+            border: 1px solid #334155;
+            font-size: 1.1em;
+        }
+        .result strong {
+            color: #38bdf8;
+        }
+        .section-title {
+            text-align: center;
+            font-size: 2em;
+            margin: 40px 0;
+            color: #e2e8f9;
+        }
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid #334155;
+            color: #64748b;
+        }
+        .ad-placeholder {
+            background: #1e293b;
+            border: 2px dashed #334155;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            margin: 20px 0;
+            color: #64748b;
+        }
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            margin-top: 40px;
+        }
+        .stat {
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .stat-label {
+            color: #94a3b8;
+            margin-top: 5px;
+        }
+        .debt-section {
+            margin-bottom: 15px;
+        }
+        .debt-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr auto;
+            gap: 8px;
+            margin-bottom: 8px;
+            align-items: center;
+        }
+        .debt-row input {
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid #475569;
+            background: #0f172a;
+            color: #e2e8f9;
+            font-size: 0.9em;
+        }
+        .debt-row .remove-debt {
+            padding: 8px 12px;
+            background: #dc2626;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+        .add-debt-btn {
+            padding: 8px 16px;
+            background: #334155;
+            border: none;
+            border-radius: 6px;
+            color: #e2e8f9;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="hero">
+    <h1>CalculadoraFinanzas</h1>
+    <p>Herramientas gratuitas para gestionar tu dinero. Sin registro, sin apps, sin molestias.</p>
+    <div class="stats">
+        <div class="stat">
+            <div class="stat-number">10</div>
+            <div class="stat-label">Calculadoras gratis</div>
+        </div>
+        <div class="stat">
+            <div class="stat-number">0€</div>
+            <div class="stat-label">Siempre será gratis</div>
+        </div>
+        <div class="stat">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Privado — tus datos no salen</div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+
+    <div class="ad-placeholder">
+        <p>📢 Google AdSense — Este espacio se monetizará con anuncios</p>
+    </div>
+
+    <nav>
+        <a href="/blog.html" style="color:#38bdf8; text-decoration:underline;">📝 Blog — Artículos sobre finanzas personales</a>
+    </nav>
+
+    <h2 class="section-title">🧮 Herramientas</h2>
+
+    <div class="tools-grid">
+
+        <!-- HIPOTECA -->
+        <div class="tool-card" id="mortgage">
+            <h2>🏠 Hipoteca</h2>
+            <p>Calcula tu cuota mensual e interés total</p>
+            <input type="number" id="mortgage-amount" placeholder="Importe del préstamo (€)" value="200000">
+            <input type="number" id="mortgage-rate" placeholder="Tipo de interés (%)" value="3.5" step="0.1">
+            <input type="number" id="mortgage-term" placeholder="Plazo (años)" value="30">
+            <button onclick="calcMortgage()">Calcular cuota</button>
+            <div class="result" id="mortgage-result" style="display:none"></div>
+            <a href="/hipoteca.html" style="color:#38bdf8; display:block; margin-top:10px;">📄 Ver artículo + calculadora completa →</a>
+        </div>
+
+        <!-- PRÉSTAMO PERSONAL -->
+        <div class="tool-card">
+            <h2>💰 Préstamo Personal</h2>
+            <p>Calcula tu pago mensual</p>
+            <input type="number" id="loan-amount" placeholder="Importe del préstamo (€)" value="10000">
+            <input type="number" id="loan-rate" placeholder="Tipo de interés (%)" value="5" step="0.1">
+            <input type="number" id="loan-term" placeholder="Plazo (meses)" value="60">
+            <button onclick="calcLoan()">Calcular pago</button>
+            <div class="result" id="loan-result" style="display:none"></div>
+            <a href="/prestamo.html" style="color:#38bdf8; display:block; margin-top:10px;">📄 Ver artículo + calculadora completa →</a>
+        </div>
+
+        <!-- INTERÉS COMPUESTO -->
+        <div class="tool-card">
+            <h2>📈 Interés Compuesto</h2>
+            <p>Ve cómo crece tu dinero con el tiempo</p>
+            <input type="number" id="compound-initial" placeholder="Capital inicial (€)" value="10000">
+            <input type="number" id="compound-rate" placeholder="Tipo de interés anual (%)" value="7" step="0.1">
+            <input type="number" id="compound-time" placeholder="Años" value="20">
+            <input type="number" id="compound-monthly" placeholder="Aportación mensual (€)" value="200">
+            <button onclick="calcCompound()">Calcular crecimiento</button>
+            <div class="result" id="compound-result" style="display:none"></div>
+            <a href="/interes-compuesto.html" style="color:#38bdf8; display:block; margin-top:10px;">📄 Ver artículo + calculadora completa →</a>
+        </div>
+
+        <!-- AHORRO -->
+        <div class="tool-card">
+            <h2>🎯 Meta de Ahorro</h2>
+            <p>¿Cuánto ahorrar para llegar a tu objetivo?</p>
+            <input type="number" id="savings-goal" placeholder="Objetivo (€)" value="50000">
+            <input type="number" id="savings-current" placeholder="Ahora tienes (€)" value="5000">
+            <input type="number" id="savings-rate" placeholder="Tipo de interés anual (%)" value="4" step="0.1">
+            <input type="number" id="savings-time" placeholder="Años para ahorrar" value="10">
+            <button onclick="calcSavings()">Calcular ahorro mensual</button>
+            <div class="result" id="savings-result" style="display:none"></div>
+            <a href="/ahorro.html" style="color:#38bdf8; display:block; margin-top:10px;">📄 Ver artículo + calculadora completa →</a>
+        </div>
+
+        <!-- DEUDA -->
+        <div class="tool-card">
+            <h2>💳 Payoff de Deuda</h2>
+            <p>Calcula cuánto tardas en salir de deuda</p>
+            <input type="number" id="debt-balance" placeholder="Balance total (€)" value="5000">
+            <input type="number" id="debt-rate" placeholder="Tipo de interés (%)" value="18" step="0.1">
+            <input type="number" id="debt-payment" placeholder="Pago mensual (€)" value="200">
+            <button onclick="calcDebt()">Calcular payoff</button>
+            <div class="result" id="debt-result" style="display:none"></div>
+            <a href="/deuda.html" style="color:#38bdf8; display:block; margin-top:10px;">📄 Ver artículo + calculadora completa →</a>
+        </div>
+
+        <!-- RETIRO -->
+        <div class="tool-card">
+            <h2>🏖️ Plan de Retiro</h2>
+            <p>¿Cuánto necesitas para retirarte?</p>
+            <input type="number" id="retire-expense" placeholder="Gastos mensuales actuales (€)" value="1500">
+            <input type="number" id="retire-multiplier" placeholder="Multiplicador de retiro (25 por defecto)" value="25">
+            <input type="number" id="retire-current" placeholder="Ahora tienes ahorrado (€)" value="50000">
+            <button onclick="calcRetire()">Calcular plan</button>
+            <div class="result" id="retire-result" style="display:none"></div>
+        </div>
+
+        <!-- SALARIO REAL -->
+        <div class="tool-card">
+            <h2>💵 Salario Real por Hora</h2>
+            <p>Descubre cuánto ganas por minuto y segundo</p>
+            <input type="number" id="salary-annual" placeholder="Salario anual bruto (€)" value="30000">
+            <input type="number" id="salary-hours" placeholder="Horas semanales" value="40">
+            <input type="number" id="salary-days" placeholder="Días semanales" value="5">
+            <button onclick="calcSalary()">Calcular</button>
+            <div class="result" id="salary-result" style="display:none"></div>
+        </div>
+
+        <!-- PRESUPUESTO 50/30/20 -->
+        <div class="tool-card">
+            <h2>📊 Presupuesto 50/30/20</h2>
+            <p>Organiza tu salario: 50% necesidades, 30% deseos, 20% ahorro</p>
+            <input type="number" id="budget-income" placeholder="Salario neto mensual (€)" value="1500">
+            <button onclick="calcBudget()">Distribuir</button>
+            <div class="result" id="budget-result" style="display:none"></div>
+        </div>
+
+        <!-- INFLACIÓN -->
+        <div class="tool-card">
+            <h2>📉 Poder de Compra vs Inflación</h2>
+            <p>¿Cuánto vale tu dinero dentro de X años?</p>
+            <input type="number" id="inflation-amount" placeholder="Cantidad actual (€)" value="10000">
+            <input type="number" id="inflation-rate" placeholder="Inflación anual (%)" value="3" step="0.1">
+            <input type="number" id="inflation-years" placeholder="Años" value="10">
+            <button onclick="calcInflation()">Calcular</button>
+            <div class="result" id="inflation-result" style="display:none"></div>
+        </div>
+
+        <!-- CONVERSIÓN MONEDA -->
+        <div class="tool-card">
+            <h2>💱 Conversor de Monedas</h2>
+            <p>Convierte entre las principales monedas</p>
+            <input type="number" id="currency-amount" placeholder="Cantidad" value="1000">
+            <select id="currency-from">
+                <option value="EUR">🇪🇺 EUR</option>
+                <option value="USD">🇺🇸 USD</option>
+                <option value="GBP">🇬🇧 GBP</option>
+                <option value="JPY">🇯🇵 JPY</option>
+            </select>
+            <select id="currency-to">
+                <option value="USD">🇺🇸 USD</option>
+                <option value="EUR">🇪🇺 EUR</option>
+                <option value="GBP">🇬🇧 GBP</option>
+                <option value="JPY">🇯🇵 JPY</option>
+            </select>
+            <button onclick="calcCurrency()">Convertir</button>
+            <div class="result" id="currency-result" style="display:none"></div>
+        </div>
+
+        <!-- INTERÉS SIMPLE -->
+        <div class="tool-card">
+            <h2>🧾 Interés Simple</h2>
+            <p>Calcula ganancias con interés simple</p>
+            <input type="number" id="simple-principal" placeholder="Capital (€)" value="5000">
+            <input type="number" id="simple-rate" placeholder="Tipo anual (%)" value="5" step="0.1">
+            <input type="number" id="simple-time" placeholder="Años" value="5">
+            <button onclick="calcSimple()">Calcular</button>
+            <div class="result" id="simple-result" style="display:none"></div>
+        </div>
+
+    </div>
+
+    <div class="ad-placeholder">
+        <p>📢 Google AdSense — Este espacio se monetizará con anuncios</p>
+    </div>
+
+</div>
+
+<div class="footer">
+    <p>CalculadoraFinanzas — Herramientas gratuitas para tu dinero</p>
+    <p style="margin-top: 10px;">Este sitio usa Google AdSense para monetización</p>
+</div>
+
+<script>
+    // HIPOTECA
+    function calcMortgage() {
+        const P = parseFloat(document.getElementById('mortgage-amount').value);
+        const r = parseFloat(document.getElementById('mortgage-rate').value) / 100 / 12;
+        const n = parseInt(document.getElementById('mortgage-term').value) * 12;
+        const M = P * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1);
+        const total = M * n;
+        const interest = total - P;
+        const result = document.getElementById('mortgage-result');
+        result.style.display = 'block';
+        result.innerHTML = `
+            <strong>Cuota mensual:</strong> €${M.toFixed(2)}<br>
+            <strong>Total pagado:</strong> €${total.toFixed(2)}<br>
+            <strong>Interés total:</strong> €${interest.toFixed(2)}<br>
+            <strong>Tiempo:</strong> ${parseInt(document.getElementById('mortgage-term').value)} años
+        `;
+    }
+
+    // PRÉSTAMO
+    function calcLoan() {
+        const P = parseFloat(document.getElementById('loan-amount').value);
+        const r = parseFloat(document.getElementById('loan-rate').value) / 100 / 12;
+        const n = parseInt(document.getElementById('loan-term').value);
+        const M = P * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1);
+        const total = M * n;
+        const interest = total - P;
+        const result = document.getElementById('loan-result');
+        result.style.display = 'block';
+        result.innerHTML = `
+            <strong>Pago mensual:</strong> €${M.toFixed(2)}<br>
+            <strong>Total pagado:</strong> €${total.toFixed(2)}<br>
+            <strong>Interés total:</strong> €${interest.toFixed(2)}<br>
+            <strong>Tiempo:</strong> ${n} meses
+        `;
+    }
+
+    // INTERÉS COMPUESTO
+    function calcCompound() {
+        const P = parseFloat(document.getElementById('compound-initial').value);
+        const r = parseFloat(document.getElementById('compound-rate').value) / 100;
+        const t = parseInt(document.getElementById('compound-time').value);
+        const M = parseFloat(document.getElementById('compound-monthly').value);
+        const monthlyRate = r / 12;
+        const months = t * 12;
+        const futureValue = P * Math.pow(1 + monthlyRate, months) + M * ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate);
+        const totalContributed = P + M * months;
+        const interest = futureValue - totalContributed;
+        const result = document.getElementById('compound-result');
+        result.style.display = 'block';
+        result.innerHTML = `
+            <strong>Valor futuro:</strong> €${futureValue.toFixed(2)}<br>
+            <strong>Total invertido:</strong> €${totalContributed.toFixed(2)}<br>
+            <strong>Intereses ganados:</strong> €${interest.toFixed(2)}<br>
+            <strong>Tiempo:</strong> ${t} años
+        `;
+    }
+
+    // AHORRO
+    function calcSavings() {
+        const goal = parseFloat(document.getElementById('savings-goal').value);
+        const current = parseFloat(document.getElementById('savings-current').value);
+        const r = parseFloat(document.getElementById('savings-rate').value) / 100 / 12;
+        const t = parseInt(document.getElementById('savings-time').value) * 12;
+        const required = (goal - current * Math.pow(1 + r, t)) / ((Math.pow(1 + r, t) - 1) / r);
+        const result = document.getElementById('savings-result');
+        result.style.display = 'block';
+        result.innerHTML = `
+            <strong>Ahorro mensual necesario:</strong> €${required.toFixed(2)}<br>
+            <strong>Objetivo:</strong> €${goal}<br>
+            <strong>Ahorrar ahora:</strong> €${current}<br>
+            <strong>Tiempo:</strong> ${parseInt(document.getElementById('savings-time').value)} años
+        `;
+    }
+
+    // DEUDA
+    function calcDebt() {
+        const balance = parseFloat(document.getElementById('debt-balance').value);
+        const r = parseFloat(document.getElementById('debt-rate').value) / 100 / 12;
+        const payment = parseFloat(document.getElementById('debt-payment').value);
+        if (payment <= balance * r) {
+            document.getElementById('debt-result').style.display = 'block';
+            document.getElementById('debt-result').innerHTML = '⚠️ Tu pago mensual cubre solo los intereses. Necesitas pagar más para reducir la deuda.';
+            return;
+        }
+        const months = -Math.log(1 - (r * balance) / payment) / Math.log(1 + r);
+        const total = payment * months;
+        const interest = total - balance;
+        const result = document.getElementById('debt-result');
+        result.style.display = 'block';
+        result.innerHTML = `
+            <strong>Meses para salir:</strong> ${Math.ceil(months)} (${Math.ceil(months) / 12} años)<br>
+            <strong>Total pagado:</strong> €${total.toFixed(2)}<br>
+            <strong>Interés total:</strong> €${interest.toFixed(2)}<br>
+            <strong>Deuda:</strong> €${balance}
+        `;
+    }
+
+    // RETIRO
+    function calcRetire() {
+        const expense = parseFloat(document.getElementById('retire-expense').value);
+        const multiplier = parseFloat(document.getElementById('retire-multiplier').value);
+        const current = parseFloat(document.getElementById('retire-current').value);
+        const needed = expense * multiplier;
+        const gap = needed - current;
+        const result = document.getElementById('retire-result');
+        result.style.display = 'block';
+        result.innerHTML = `
+            <strong>Necesitas tener:</strong> €${needed.toLocaleString()}<br>
+            <strong>Ahorrar ahora:</strong> €${current.toLocaleString()}<br>
+            <strong>Brecha:</strong> €${gap.toLocaleString()}<br>
+            <strong>Regla 25x:</strong> ${expense} × 25 = ${needed.toLocaleString()}<br>
+            <strong>Tu % completado:</strong> ${(current / needed * 100).toFixed(1)}%
+        `;
+    }
+
+    // SALARIO
+    function calcSalary() {
+        const annual = parseFloat(document.getElementById('salary-annual').value);
+        const hours = parseInt(document.getElementById('salary-hours').value);
+        const days = parseInt(document.getElementById('salary-days').value);
+        const weekly = annual / 52;
+        const hourly = weekly / hours;
+        const daily = weekly / days;
+        const minute = hourly / 60;
+        const second = minute / 60;
+        const workYear = days * 52;
+        const result = document.getElementById('salary-result');
+        result.style.display = 'block';
+        result.innerHTML = `
+            <strong>Salario anual:</strong> €${annual.toLocaleString()}<br>
+            <strong>Semana:</strong> €${weekly.toFixed(2)}<br>
+            <strong>Día:</strong> €${daily.toFixed(2)}<br>
+            <strong>Por hora:</strong> €${hourly.toFixed(2)}<br>
+            <strong>Por minuto:</strong> €${(minute * 100).toFixed(4)}¢<br>
+            <strong>Por segundo:</strong> €${(second * 100).toFixed(4)}¢<br>
+            <strong>Horas trabajadas/año:</strong> ${workYear}
+        `;
+    }
+
+    // PRESUPUESTO 50/30/20
+    function calcBudget() {
+        const income = parseFloat(document.getElementById('budget-income').value);
+        const needs = income * 0.5;
+        const wants = income * 0.3;
+        const savings = income * 0.2;
+        const result = document.getElementById('budget-result');
+        result.style.display = 'block';
+        result.innerHTML = `
+            <strong>Ingreso neto:</strong> €${income}<br>
+            <br>
+            <strong style="color:#38bdf8">Necesidades (50%):</strong> €${needs.toFixed(2)} — vivienda, comida, servicios<br>
+            <strong style="color:#818cf8">Deseos (30%):</strong> €${wants.toFixed(2)} — ocio, viajes, gustos<br>
+            <strong style="color:#34d399">Ahorro (20%):</strong> €${savings.toFixed(2)} — fondos, inversiones, emergencia
+        `;
+    }
+
+    // INFLACIÓN
+    function calcInflation() {
+        const amount = parseFloat(document.getElementById('inflation-amount').value);
+        const rate = parseFloat(document.getElementById('inflation-rate').value) / 100;
+        const years = parseInt(document.getElementById('inflation-years').value);
+        const futureValue = amount / Math.pow(1 + rate, years);
+        const loss = amount - futureValue;
+        const result = document.getElementById('inflation-result');
+        result.style.display = 'block';
+        result.innerHTML = `
+            <strong>€${amount.toLocaleString()} hoy valdrán:</strong><br>
+            <strong>€${futureValue.toFixed(2)} dentro de ${years} años</strong><br>
+            <strong>Pérdida de poder de compra:</strong> €${loss.toFixed(2)}<br>
+            <strong>Inflación:</strong> ${(rate * 100).toFixed(1)}% anual
+        `;
+    }
+
+    // CONVERSIÓN MONEDA
+    function calcCurrency() {
+        const amount = parseFloat(document.getElementById('currency-amount').value);
+        const from = document.getElementById('currency-from').value;
+        const to = document.getElementById('currency-to').value;
+        const rates = {
+            'EUR': 1, 'USD': 1.10, 'GBP': 0.85, 'JPY': 164.5
+        };
+        const result = amount * (rates[to] / rates[from]);
+        const symbols = { 'EUR': '€', 'USD': '$', 'GBP': '£', 'JPY': '¥' };
+        const res = document.getElementById('currency-result');
+        res.style.display = 'block';
+        res.innerHTML = `
+            <strong>${amount.toLocaleString()} ${symbols[from]} → ${symbols[to]} ${result.toFixed(2)}</strong><br>
+            <small>Tipo aproximativo: 1 ${from} = ${(rates[to] / rates[from]).toFixed(4)} ${to}</small>
+        `;
+    }
+
+    // INTERÉS SIMPLE
+    function calcSimple() {
+        const P = parseFloat(document.getElementById('simple-principal').value);
+        const r = parseFloat(document.getElementById('simple-rate').value) / 100;
+        const t = parseInt(document.getElementById('simple-time').value);
+        const interest = P * r * t;
+        const total = P + interest;
+        const result = document.getElementById('simple-result');
+        result.style.display = 'block';
+        result.innerHTML = `
+            <strong>Interés simple:</strong> €${interest.toFixed(2)}<br>
+            <strong>Total:</strong> €${total.toFixed(2)}<br>
+            <strong>Capital:</strong> €${P}<br>
+            <strong>Tiempo:</strong> ${t} años
+        `;
+    }
+</script>
+
+</body>
+</html>

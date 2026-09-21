@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Presupuesto Online Gratuita | CalculadoraFinanzas</title>
+    <meta name="description" content="Organiza tu dinero con el método 50/30/20. Distribuye tu salario en necesidades, deseos y ahorro. Gratis, sin registro.">
+    <meta name="keywords" content="calculadora presupuesto, metodo 50 30 20, presupuesto personal, organizar finanzas, distribuir salario, regla 50 30 20">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org/",
+        "@type": "WebApplication",
+        "name": "Calculadora de Presupuesto 50/30/20",
+        "description": "Organiza tu presupuesto con la regla 50/30/20",
+        "url": "https://calculadorafinanzas.github.io/presupuesto.html",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Any"
+    }
+    </script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f172a;
+            color: #e2e8f9;
+            line-height: 1.6;
+        }
+        .hero {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            padding: 60px 20px;
+            text-align: center;
+            border-bottom: 1px solid #334155;
+        }
+        .hero h1 {
+            font-size: 2.4em;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p { color: #94a3b8; font-size: 1.1em; }
+        .container { max-width: 800px; margin: 0 auto; padding: 0 20px; }
+        .calculator {
+            background: #1e293b;
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid #334155;
+            margin: 30px 0;
+        }
+        .calculator h2 { color: #38bdf8; margin-bottom: 20px; }
+        .calculator label { display: block; margin-bottom: 5px; color: #94a3b8; }
+        .calculator input {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid #475569;
+            background: #0f172a;
+            color: #e2e8f9;
+            font-size: 1em;
+        }
+        .calculator button {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            border-radius: 8px;
+            border: none;
+            background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+            color: white;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            background: #0f172a;
+            border-radius: 8px;
+            border: 1px solid #334155;
+            font-size: 1.1em;
+            display: none;
+        }
+        .result strong { color: #38bdf8; }
+        .content {
+            margin: 40px 0;
+            padding: 30px;
+            background: #1e293b;
+            border-radius: 16px;
+            border: 1px solid #334155;
+        }
+        .content h2 { color: #38bdf8; margin-bottom: 15px; }
+        .content p { color: #94a3b8; margin-bottom: 15px; }
+        .content ul { color: #94a3b8; margin-left: 20px; }
+        .content li { margin-bottom: 10px; }
+        .nav {
+            padding: 15px 20px;
+            background: #1e293b;
+            border-bottom: 1px solid #334155;
+        }
+        .nav a { color: #38bdf8; text-decoration: none; font-size: 0.9em; }
+        .nav a:hover { text-decoration: underline; }
+        .footer {
+            text-align: center;
+            padding: 30px 20px;
+            border-top: 1px solid #334155;
+            color: #64748b;
+        }
+        .ad-placeholder {
+            background: #1e293b;
+            border: 2px dashed #334155;
+            border-radius: 12px;
+            padding: 60px;
+            text-align: center;
+            margin: 20px 0;
+            color: #64748b;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="nav">
+    <a href="/">🏠 CalculadoraFinanzas</a> | <a href="/hipoteca.html">Hipoteca</a> | <a href="/presupuesto.html">Presupuesto</a>
+</nav>
+
+<div class="hero">
+    <h1>📊 Calculadora de Presupuesto 50/30/20</h1>
+    <p>Organiza tu dinero con la regla 50/30/20 de Elizabeth Warren</p>
+</div>
+
+<div class="container">
+    <div class="ad-placeholder">
+        <p>📢 Google AdSense — Este espacio se monetizará con anuncios</p>
+    </div>
+
+    <div class="calculator">
+        <h2>Distribuye tu salario</h2>
+        <label for="budget-income">Salario neto mensual (€)</label>
+        <input type="number" id="budget-income" placeholder="Ej: 1500" value="1500">
+        
+        <button onclick="calcBudget()">Distribuir según 50/30/20</button>
+        
+        <div class="result" id="budget-result"></div>
+    </div>
+
+    <div class="content">
+        <h2>¿Qué es la regla 50/30/20?</h2>
+        <p>La regla 50/30/20 fue popularizada por la senadora Elizabeth Warren. Divide tu ingreso en tres categorías:</p>
+        <ul>
+            <li><strong>50% para necesidades</strong> — Vivienda, alimentación, servicios, seguros, transporte.</li>
+            <li><strong>30% para deseos</strong> — Ocio, restaurantes, viajes, ropa, entretenimiento.</li>
+            <li><strong>20% para ahorro y deuda</strong> — Fondo de emergencia, inversiones, pagar deudas extra.</li>
+        </ul>
+        
+        <h2>Ejemplo con 1.500€/mes</h2>
+        <ul>
+            <li><strong>Necesidades:</strong> €750 — alquiler, comida, luz, gas, teléfono</li>
+            <li><strong>Deseos:</strong> €450 — cine, restaurantes, ropa, salidas</li>
+            <li><strong>Ahorro:</strong> €300 — fondo emergencia, inversión, plan de pensiones</li>
+        </ul>
+        
+        <h2>Consejos para aplicar la regla</h2>
+        <ul>
+            <li><strong>Revisa cada mes</strong> — Usa una app o Excel para llevar control real.</li>
+            <li><strong>Empieza con 40/30/30</strong> — Si tus necesidades son mayores, ajusta proporciones.</li>
+            <li><strong>Automatiza</strong> — Transfiere automáticamente los 20% a una cuenta de ahorro.</li>
+        </ul>
+        
+        <h2>Alternativas en esta web</h2>
+        <p>También puedes usar nuestras otras calculadoras:</p>
+        <ul>
+            <li><a href="/hipoteca.html">Calculadora de Hipoteca</a></li>
+            <li><a href="/prestamo.html">Calculadora de Préstamo Personal</a></li>
+            <li><a href="/ahorro.html">Calculadora de Meta de Ahorro</a></li>
+            <li><a href="/retiro.html">Calculadora de Plan de Retiro</a></li>
+        </ul>
+    </div>
+
+    <div class="ad-placeholder">
+        <p>📢 Google AdSense — Este espacio se monetizará con anuncios</p>
+    </div>
+</div>
+
+<div class="footer">
+    <p>CalculadoraFinanzas — Herramientas gratuitas para tu dinero</p>
+    <p style="margin-top: 10px;"><a href="/">Volver a todas las calculadoras</a></p>
+</div>
+
+<script>
+    function calcBudget() {
+        const income = parseFloat(document.getElementById('budget-income').value);
+        const needs = income * 0.5;
+        const wants = income * 0.3;
+        const savings = income * 0.2;
+        const result = document.getElementById('budget-result');
+        result.style.display = 'block';
+        result.innerHTML = `
+            <strong>Ingreso neto:</strong> €${income}<br>
+            <br>
+            <strong style="color:#38bdf8">Necesidades (50%):</strong> €${needs.toFixed(2)} — vivienda, comida, servicios<br>
+            <strong style="color:#818cf8">Deseos (30%):</strong> €${wants.toFixed(2)} — ocio, viajes, gustos<br>
+            <strong style="color:#34d399">Ahorro (20%):</strong> €${savings.toFixed(2)} — fondo emergencia, inversiones
+        `;
+    }
+</script>
+
+</body>
+</html>

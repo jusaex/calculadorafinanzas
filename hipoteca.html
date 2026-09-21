@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Hipoteca Online Gratuita | CalculadoraFinanzas</title>
+    <meta name="description" content="Calcula tu cuota de hipoteca mensual fácilmente. Descubre el coste total de tu préstamo hipotecario, los intereses y tu plan de amortización. Gratis, sin registro.">
+    <meta name="keywords" content="calculadora hipoteca, cuota hipoteca, calcular hipoteca, hipoteca online gratis, amortizacion hipoteca">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org/",
+        "@type": "WebApplication",
+        "name": "Calculadora de Hipoteca",
+        "description": "Calcula tu cuota de hipoteca mensual y coste total del préstamo",
+        "url": "https://calculadorafinanzas.github.io/hipoteca.html",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Any"
+    }
+    </script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f172a;
+            color: #e2e8f9;
+            line-height: 1.6;
+        }
+        .hero {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            padding: 60px 20px;
+            text-align: center;
+            border-bottom: 1px solid #334155;
+        }
+        .hero h1 {
+            font-size: 2.4em;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p { color: #94a3b8; font-size: 1.1em; }
+        .container { max-width: 800px; margin: 0 auto; padding: 0 20px; }
+        .calculator {
+            background: #1e293b;
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid #334155;
+            margin: 30px 0;
+        }
+        .calculator h2 {
+            color: #38bdf8;
+            margin-bottom: 20px;
+        }
+        .calculator input {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid #475569;
+            background: #0f172a;
+            color: #e2e8f9;
+            font-size: 1em;
+        }
+        .calculator label {
+            display: block;
+            margin-bottom: 5px;
+            color: #94a3b8;
+        }
+        .calculator button {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            border-radius: 8px;
+            border: none;
+            background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+            color: white;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            background: #0f172a;
+            border-radius: 8px;
+            border: 1px solid #334155;
+            font-size: 1.1em;
+            display: none;
+        }
+        .result strong { color: #38bdf8; }
+        .content {
+            margin: 40px 0;
+            padding: 30px;
+            background: #1e293b;
+            border-radius: 16px;
+            border: 1px solid #334155;
+        }
+        .content h2 { color: #38bdf8; margin-bottom: 15px; }
+        .content p { color: #94a3b8; margin-bottom: 15px; }
+        .content ul { color: #94a3b8; margin-left: 20px; }
+        .content li { margin-bottom: 10px; }
+        .nav {
+            padding: 15px 20px;
+            background: #1e293b;
+            border-bottom: 1px solid #334155;
+        }
+        .nav a {
+            color: #38bdf8;
+            text-decoration: none;
+            font-size: 0.9em;
+        }
+        .nav a:hover { text-decoration: underline; }
+        .footer {
+            text-align: center;
+            padding: 30px 20px;
+            border-top: 1px solid #334155;
+            color: #64748b;
+        }
+        .ad-placeholder {
+            background: #1e293b;
+            border: 2px dashed #334155;
+            border-radius: 12px;
+            padding: 60px;
+            text-align: center;
+            margin: 20px 0;
+            color: #64748b;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="nav">
+    <a href="/">🏠 CalculadoraFinanzas</a> | <a href="/hipoteca.html">Hipoteca</a> | <a href="/prestamo.html">Préstamo</a> | <a href="/interes-compuesto.html">Interés Compuesto</a>
+</nav>
+
+<div class="hero">
+    <h1>🏠 Calculadora de Hipoteca</h1>
+    <p>Calcula tu cuota de hipoteca mensual y descubre el coste total de tu préstamo hipotecario</p>
+</div>
+
+<div class="container">
+    <div class="ad-placeholder">
+        <p>📢 Google AdSense — Este espacio se monetizará con anuncios</p>
+    </div>
+
+    <div class="calculator">
+        <h2>Calcula tu hipoteca</h2>
+        <label for="mortgage-amount">Importe del préstamo (€)</label>
+        <input type="number" id="mortgage-amount" placeholder="Ej: 200000" value="200000">
+        
+        <label for="mortgage-rate">Tipo de interés anual (%)</label>
+        <input type="number" id="mortgage-rate" placeholder="Ej: 3.5" value="3.5" step="0.1">
+        
+        <label for="mortgage-term">Plazo (años)</label>
+        <input type="number" id="mortgage-term" placeholder="Ej: 30" value="30">
+        
+        <button onclick="calcMortgage()">Calcular cuota mensual</button>
+        
+        <div class="result" id="mortgage-result"></div>
+    </div>
+
+    <div class="content">
+        <h2>¿Qué es una hipoteca?</h2>
+        <p>Una hipoteca es un préstamo financiero que se utiliza para adquirir bienes inmuebles (vivienda, local comercial, terreno, etc.). El comprador no paga el total del inmueble en efectivo, sino que diferencia el pago en varios pagos a lo largo de varios años.</p>
+        
+        <h2>¿Cómo funciona la calculadora?</h2>
+        <p>La calculadora de hipoteca usa la fórmula de amortización francesa (cuotas fijas), que es la más común en España:</p>
+        <ul>
+            <li><strong>Cuota mensual</strong> = Capital × tasa × (1 + tasa)^n / ((1 + tasa)^n - 1)</li>
+            <li>La tasa es el tipo de interés anual dividido entre 12 meses</li>
+            <li>El número de pagos (n) es el plazo en años multiplicado por 12</li>
+        </ul>
+        
+        <h2>Consejos para tu hipoteca</h2>
+        <ul>
+            <li><strong>Compara tipos</strong> — No aceptes la primera oferta. Pide presupuestos de varios bancos.</li>
+            <li><strong>Calcula el coste total</strong> — Además de la cuota, hay gastos de formalización, comisiones y seguro.</li>
+            <li><strong>Considera la amortización anticipada</strong> — Si tienes extras, amortiza parte del capital para reducir intereses.</li>
+            <li><strong>Mejor tipo fijo o vinculado</strong> — El fijo te da estabilidad; el vinculado puede tener tipo más bajo pero con productos adicionales.</li>
+        </ul>
+        
+        <h2>¿Qué incluye esta calculadora?</h2>
+        <ul>
+            <li>Cuota mensual fija (sistema de amortización francés)</li>
+            <li>Total de pagos durante toda la vida del préstamo</li>
+            <li>Total de intereses pagados</li>
+            <li>Duración en años y meses</li>
+        </ul>
+        
+        <h2>Alternativas en esta web</h2>
+        <p>También puedes usar nuestras otras calculadoras:</p>
+        <ul>
+            <li><a href="/prestamo.html">Calculadora de Préstamo Personal</a></li>
+            <li><a href="/interes-compuesto.html">Calculadora de Interés Compuesto</a></li>
+            <li><a href="/deuda.html">Calculadora de Payoff de Deuda</a></li>
+            <li><a href="/ahorro.html">Calculadora de Meta de Ahorro</a></li>
+        </ul>
+    </div>
+
+    <div class="ad-placeholder">
+        <p>📢 Google AdSense — Este espacio se monetizará con anuncios</p>
+    </div>
+</div>
+
+<div class="footer">
+    <p>CalculadoraFinanzas — Herramientas gratuitas para tu dinero</p>
+    <p style="margin-top: 10px;"><a href="/">Volver a todas las calculadoras</a></p>
+</div>
+
+<script>
+    function calcMortgage() {
+        const P = parseFloat(document.getElementById('mortgage-amount').value);
+        const r = parseFloat(document.getElementById('mortgage-rate').value) / 100 / 12;
+        const n = parseInt(document.getElementById('mortgage-term').value) * 12;
+        const M = P * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1);
+        const total = M * n;
+        const interest = total - P;
+        const result = document.getElementById('mortgage-result');
+        result.style.display = 'block';
+        result.innerHTML = `
+            <strong>Cuota mensual:</strong> €${M.toFixed(2)}<br>
+            <strong>Total pagado:</strong> €${total.toFixed(2)}<br>
+            <strong>Interés total:</strong> €${interest.toFixed(2)}<br>
+            <strong>Tiempo:</strong> ${parseInt(document.getElementById('mortgage-term').value)} años
+        `;
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,99 @@
+{
+  "name": "Missed Call Text-Back + Review Automation",
+  "nodes": [
+    {
+      "id": "twilio-webhook",
+      "name": "Twilio Webhook",
+      "type": "n8n://hub/twilio.webhook",
+      "trigger": true,
+      "parameters": {
+        "path": "twilio/sms",
+        "httpMethod": "POST"
+      }
+    },
+    {
+      "id": "parse-message",
+      "name": "Parsear Mensaje",
+      "type": "n8n://core/node/executeScript",
+      "parameters": {
+        "script": "const body = $input.json.body;\nconst from = $input.json.from;\nreturn [{ json: { body, from, timestamp: new Date().toISOString() }}];"
+      }
+    },
+    {
+      "id": "check-response",
+      "name": "Verificar Tipo de Respuesta",
+      "type": "n8n://core/node/if",
+      "parameters": {
+        "conditions": {
+          "rule": "if value equals",
+          "value1": "{{ $input.json.body }}",
+          "value2": "",
+          "options": { "returnBoth": true }
+        }
+      }
+    },
+    {
+      "id": "send-ai-reply",
+      "name": "Enviar Respuesta IA",
+      "type": "n8n://core/node/aiAgent",
+      "parameters": {
+        "prompt": "Eres un asistente de conversación para negocios locales. Responde de forma natural y conversacional al mensaje del cliente.",
+        "messages": [
+          { "role": "system", "content": "Eres un asistente profesional. Tu trabajo es capturar leads, responder preguntas y ayudar a agendar citas." }
+        ]
+      }
+    },
+    {
+      "id": "send-sms-reply",
+      "name": "Enviar SMS de Respuesta",
+      "type": "n8n://core/node/twilio.sendMessage",
+      "parameters": {
+        "to": "{{ $input.json.from }}",
+        "from": "+YOUR_TWILIO_NUMBER",
+        "body": "{{ $input.json.reply }}"
+      }
+    },
+    {
+      "id": "store-conversation",
+      "name": "Guardar Conversación",
+      "type": "n8n://core/node/return",
+      "parameters": {
+        "output": "json"
+      }
+    }
+  ],
+  "connections": {
+    "Twilio Webhook": {
+      "main": [
+        { "node": "Parsear Mensaje", "type": "main", "index": 0 }
+      ]
+    },
+    "Parsear Mensaje": {
+      "main": [
+        { "node": "Verificar Tipo de Respuesta", "type": "main", "index": 0 }
+      ]
+    },
+    "Verificar Tipo de Respuesta": {
+      "main": [
+        { "node": "Enviar Respuesta IA", "type": "main", "index": 0 }
+      ]
+    },
+    "Enviar Respuesta IA": {
+      "main": [
+        { "node": "Enviar SMS de Respuesta", "type": "main", "index": 0 }
+      ]
+    },
+    "Enviar SMS de Respuesta": {
+      "main": [
+        { "node": "Guardar Conversación", "type": "main", "index": 0 }
+      ]
+    }
+  },
+  "settings": {
+    "saveExecuteData": false,
+    "saveErrors": true,
+    "saveManualExecutions": true,
+    "saveRejectedError": true,
+    "executionTimeout": 300
+  }
+}
