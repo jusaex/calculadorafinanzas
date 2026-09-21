@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de IVA Online Gratuita | Calcular IVA y sin IVA</title>
+    <meta name="description" content="Calcula el IVA de cualquier cantidad rápidamente. Conoce el precio con y sin IVA al 21%, 10% o 4%. Herramienta gratuita de cálculo de impuestos.">
+    <meta name="keywords" content="calculadora IVA, calcular IVA, precio con IVA, precio sin IVA, calcular impuestos, IVA online">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org/",
+        "@type": "WebApplication",
+        "name": "Calculadora de IVA",
+        "description": "Calcula el precio con o sin IVA instantáneamente",
+        "url": "https://jusaex.github.io/calculadorafinanzas/iva.html",
+        "applicationCategory": "FinanceApplication"
+    }
+    </script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f172a;
+            color: #e2e8f9;
+            line-height: 1.6;
+        }
+        .hero {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            padding: 60px 20px;
+            text-align: center;
+            border-bottom: 1px solid #334155;
+        }
+        .hero h1 {
+            font-size: 2.4em;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p { color: #94a3b8; font-size: 1.1em; }
+        .container { max-width: 700px; margin: 0 auto; padding: 0 20px; }
+        .tool-card {
+            background: #1e293b;
+            border-radius: 16px;
+            padding: 40px;
+            border: 1px solid #334155;
+            margin: 30px 0;
+        }
+        .tool-card h2 { color: #38bdf8; margin-bottom: 20px; }
+        .tool-card label { color: #94a3b8; display: block; margin-bottom: 8px; }
+        .tool-card input, .tool-card select {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid #334155;
+            background: #0f172a;
+            color: #e2e8f9;
+            font-size: 1.1em;
+        }
+        .tool-card button {
+            width: 100%;
+            padding: 14px 30px;
+            border-radius: 8px;
+            border: none;
+            background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+            color: white;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        .result {
+            background: #0f172a;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .result p { margin-bottom: 10px; font-size: 1.1em; }
+        .result .big { font-size: 2.5em; font-weight: bold; background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .article {
+            background: #1e293b;
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid #334155;
+            margin: 30px 0;
+        }
+        .article h2 { color: #38bdf8; margin: 20px 0 10px; }
+        .article p, .article li { color: #94a3b8; margin-bottom: 12px; }
+        .article ul { margin-left: 25px; }
+        .ad-placeholder {
+            background: #1e293b;
+            border: 2px dashed #334155;
+            border-radius: 12px;
+            padding: 60px;
+            text-align: center;
+            margin: 20px 0;
+            color: #64748b;
+        }
+        .nav {
+            padding: 15px 20px;
+            background: #1e293b;
+            border-bottom: 1px solid #334155;
+        }
+        .nav a { color: #38bdf8; text-decoration: none; font-size: 0.9em; margin-right: 20px; }
+        .nav a:hover { text-decoration: underline; }
+        .footer {
+            text-align: center;
+            padding: 30px 20px;
+            border-top: 1px solid #334155;
+            color: #64748b;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="nav">
+    <a href="/">🏠 CalculadoraFinanzas</a> | <a href="/iva.html">IVA</a> | <a href="/sueldo.html">Sueldo</a> | <a href="/propina.html">Propina</a>
+</nav>
+
+<div class="hero">
+    <h1>📊 Calculadora de IVA</h1>
+    <p>Calcula el precio con o sin IVA al instante</p>
+</div>
+
+<div class="container">
+    <div class="ad-placeholder">
+        <p>📢 Google AdSense — Este espacio se monetizará con anuncios</p>
+    </div>
+
+    <div class="tool-card">
+        <h2>🧮 Calcula el IVA</h2>
+        <label>¿Quieres calcular...</label>
+        <select id="iva-type" onchange="updateLabel()">
+            <option value="with">Precio SIN IVA → Con IVA</option>
+            <option value="without">Precio CON IVA → Sin IVA</option>
+        </select>
+        <label>Importe (€)</label>
+        <input type="number" id="iva-amount" placeholder="Ej: 100" value="100" step="0.01">
+        <label>Tipo de IVA (%)</label>
+        <select id="iva-rate">
+            <option value="21" selected>21% (general)</option>
+            <option value="10">10% (reducido)</option>
+            <option value="4">4% (superreducido)</option>
+        </select>
+        <button onclick="calcIVA()">Calcular</button>
+        <div class="result" id="iva-result" style="display:none"></div>
+    </div>
+
+    <div class="article">
+        <h2>¿Qué es el IVA y cómo calcularlo?</h2>
+        <p>El IVA (Impuesto sobre el Valor Añadido) es un impuesto que se añade a casi todo lo que compras. En España hay tres tipos:</p>
+        <ul>
+            <li><strong>General (21%):</strong> La mayoría de productos y servicios</li>
+            <li><strong>Reducido (10%):</strong> Algunos productos alimentarios, transporte, restauración</li>
+            <li><strong>Superreducido (4%):</strong> Libros, periódicos, medicamentos, alimentos básicos</li>
+        </ul>
+        <p><strong>¿Cómo se calcula?</strong></p>
+        <ul>
+            <li><strong>Si tienes el precio sin IVA:</strong> Precio × (1 + IVA%) → Ej: 100€ × 1.21 = 121€</li>
+            <li><strong>Si tienes el precio con IVA:</strong> Precio ÷ (1 + IVA%) → Ej: 121€ ÷ 1.21 = 100€ sin IVA</li>
+        </ul>
+        <p>Usa esta calculadora para saber exactamente cuánto cuesta algo con o sin IVA. Es gratis y funciona al instante.</p>
+    </div>
+
+    <div class="ad-placeholder">
+        <p>📢 Google AdSense — Este espacio se monetizará con anuncios</p>
+    </div>
+</div>
+
+<div class="footer">
+    <p>CalculadoraFinanzas — Herramientas gratuitas para tu dinero</p>
+    <p style="margin-top: 10px;"><a href="/">Volver a todas las calculadoras</a></p>
+</div>
+
+<script>
+function calcIVA() {
+    var amount = parseFloat(document.getElementById('iva-amount').value);
+    var rate = parseFloat(document.getElementById('iva-rate').value);
+    var type = document.getElementById('iva-type').value;
+    var resultDiv = document.getElementById('iva-result');
+
+    if (isNaN(amount) || amount < 0) {
+        resultDiv.innerHTML = '<p style="color:#ef4444;">Introduce un importe válido</p>';
+        resultDiv.style.display = 'block';
+        return;
+    }
+
+    var base, iva, total;
+
+    if (type === 'with') {
+        base = amount;
+        iva = amount * (rate / 100);
+        total = base + iva;
+        resultDiv.innerHTML = '<p>Base sin IVA:</p><p class="big">€' + base.toFixed(2) + '</p><p>IVA (' + rate + '%):</p><p style="font-size:1.5em;color:#818cf8;">€' + iva.toFixed(2) + '</p><hr style="border:none;border-top:1px solid #334155;margin:15px 0;"><p>Precio con IVA:</p><p class="big">€' + total.toFixed(2) + '</p>';
+    } else {
+        total = amount;
+        base = amount / (1 + rate / 100);
+        iva = total - base;
+        resultDiv.innerHTML = '<p>IVA (' + rate + '%):</p><p style="font-size:1.5em;color:#818cf8;">€' + iva.toFixed(2) + '</p><hr style="border:none;border-top:1px solid #334155;margin:15px 0;"><p>Precio sin IVA:</p><p class="big">€' + base.toFixed(2) + '</p><hr style="border:none;border-top:1px solid #334155;margin:15px 0;"><p>Comprobar: €' + base.toFixed(2) + ' + €' + iva.toFixed(2) + ' = €' + (base + iva).toFixed(2) + '</p>';
+    }
+
+    resultDiv.style.display = 'block';
+}
+
+function updateLabel() {
+    var type = document.getElementById('iva-type').value;
+    if (type === 'with') {
+        document.getElementById('iva-amount').placeholder = 'Precio SIN IVA';
+    } else {
+        document.getElementById('iva-amount').placeholder = 'Precio CON IVA';
+    }
+}
+</script>
+
+</body>
+</html>
